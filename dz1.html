@@ -1,0 +1,77 @@
+<HTML>
+<BODY>
+	<canvas id='lesson01' width='500' height='400'/>
+
+	<script>
+		let canvas = document.getElementById("lesson01");
+		let context = canvas.getContext("2d");
+		context.canvas.width = window.innerWidth-10;
+            context.canvas.height = window.innerHeight-20;
+
+		var psize = 1;
+		var shape_size = 50;
+
+		var shape_posX = 10
+		var shape_posY = 10
+
+		context.fillStyle = "#66ff66";
+		context.fillRect(10*psize, 10*psize, 1*psize, 1*psize);
+
+		function draw() {
+		context.fillStyle = "#66ff66";
+			for (var j=0; j<shape_size; j++) {
+				for (var i=0; i<shape_size; i++) {
+					context.fillRect((shape_posX+j)*psize, (shape_posY+i)*psize, 
+						1*psize, 1*psize);
+				}
+			}
+	
+			context.fillStyle = "#afdafc";
+			for (var j=0; j<shape_size; j++) {
+				for (var i=0; i<shape_size-j; i++) {
+					context.fillRect((i+shape_size+shape_posX)*psize, (shape_posY+j)*psize, 
+						1*psize, 1*psize);
+				}
+			}
+		}
+		function erase_draw() {
+			context.fillStyle = "#FFFFFF";	
+			for (var j=0; j<shape_size; j++) {
+				for (var i=0; i<shape_size; i++) {
+					context.fillRect((shape_posX+j)*psize, (shape_posY+i)*psize, 
+						1*psize, 1*psize);
+				}
+			}
+	
+			context.fillStyle = "#FFFFFF";
+			for (var j=0; j<shape_size; j++) {
+				for (var i=0; i<shape_size-j; i++) {
+					context.fillRect((i+shape_size+shape_posX)*psize, (shape_posY+j)*psize, 
+						1*psize, 1*psize);
+				}
+			}
+		}
+
+		setInterval(function () {
+			erase_draw();
+
+			shape_posX++;
+			shape_posY++;
+
+			draw();
+		}, 1);
+		
+		
+		canvas.addEventListener("mousedown", getClickPosition, false);
+
+		function getClickPosition(e) {
+  			var xPosition = e.clientX;
+   			var yPosition = e.clientY;
+			shape_posX = xPosition;
+			shape_posY = yPosition;
+
+		}
+	
+	</script>
+</BODY>
+</HTML>
