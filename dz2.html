@@ -1,0 +1,83 @@
+<HTML>
+    <style>
+        #dz02 {
+            position: relative;
+            cursor: pointer;
+        }
+    </style>
+    <BODY>
+    
+    <canvas id="dz02" width="300" height="300" style="border:1px solid rgb(255, 255, 255);">
+    </canvas>
+    
+    <script>
+            var canvas = document.getElementById("dz02");
+            var ctx = canvas.getContext("2d");
+            var shift = 0;
+            var flag = true;
+            var speed = 0.05;
+            document.addEventListener("mousedown", function() {
+                let start = Date.now();
+                let timer = setInterval(function() {
+                    let timePassed = Date.now() - start;
+                    if (flag) {
+                        shift += speed;
+                    } else {
+                        shift -= speed;
+                    }
+                    if (shift > 5) {
+                        flag = false;
+                    }
+                    if (shift < 0) {
+                        flag = true;
+                    }
+                }, 10);
+            });
+
+            
+           setInterval(function() {
+                var imageData = ctx.createImageData(canvas.width, canvas.height);
+                v1 = 0;
+                v2 = 255;
+                v3 = 255;
+                val = v1;
+                val1 = v2;
+                val2 = v3;
+
+                var radius = 100;
+                var x_c = imageData.width / 2;
+                var y_c = imageData.height / 2;
+
+                for(var x = 0; x < imageData.width; x++) {
+                    for(var y = 0; y < imageData.height; y++) {
+                        if ((x - x_c)*(x - x_c) + (y - y_c)*(y - y_c) <= radius*radius) {
+                            val += 1 + 1 * shift;
+                            val1 -= 1 + 1 * shift;
+                            val2 += 1 + 1 * shift;
+                            if (val > 255) {
+                                val = v1
+                            }
+                            if (val1 < 0) {
+                                val1 = v2
+                            }
+                            if (val2 > 255) {
+                                val2 = v3
+                            }
+                        } else {
+                            val = 255;
+                            val1 = v2;
+                            val2 = 255;
+                        }
+                        var index = (y*imageData.width+x)*4;
+                        imageData.data[index] = val;
+                        imageData.data[index+1] = val1;
+                        imageData.data[index+2] = val2;
+                        imageData.data[index+3] = 255;
+                    }
+                }
+                ctx.putImageData(imageData, 0, 0);
+               
+           }, 10)
+    </script>
+    </BODY>
+    </HTML>
